@@ -1,1 +1,28 @@
-
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synergy Jízdenky</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header><h1>Jízdenky / KartaŘ</h1></header>
+<main>
+<label>Typ jízdenky:</label>
+<select id="ticketType">
+  <option value="jid1">Jednorázová</option>
+  <option value="jid2">Denní</option>
+  <option value="jid3">Týdenní</option>
+</select>
+<button id="saveTicket">Uložit</button>
+</main>
+<script>
+document.getElementById("saveTicket").addEventListener("click", () => {
+  const ticket = document.getElementById("ticketType").value;
+  localStorage.setItem("synergyTicket", ticket);
+  alert("Jízdenka uložena!");
+});
+</script>
+</body>
+</html>
