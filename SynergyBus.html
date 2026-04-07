@@ -1,1 +1,57 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synergy Bus</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header><h1>Výběr autobusu</h1></header>
+<main>
+  <label>Značka autobusu:</label>
+  <select id="busBrand">
+    <option value="SOR">SOR</option>
+    <option value="IVECO/Irisbus/Karosa">IVECO/Irisbus/Karosa</option>
+    <option value="Solaris">Solaris</option>
+    <option value="ISUZU">ISUZU</option>
+    <option value="Renault/Irisbus">Renault/Irisbus</option>
+    <option value="Škoda">Škoda</option>
+  </select>
+  <label>Model autobusu:</label>
+  <select id="busModel"></select>
+  <button id="saveBus">Uložit autobus</button>
+</main>
+<script>
+const busModels = {
+  "SOR": ["BN 8.5","BNG 12","NB 12","NB 18","NS 12","NS 18","EBN 8","EBN 9.5","EBN 10.5","C 9.5","C 12","CN 8.5","CN 9.5","CN 10.5","CN 12","LH 9.5","LH 10.5","LH 12"],
+  "IVECO/Irisbus/Karosa": ["Karosa B 731","B 732","B 741","B 831","B 932","C 734","C 935","C 954","LC 735","LC 937","LC 956","Iveco Urbanway 10.5M","Iveco Urbanway 12M","Iveco Crossway","Irisbus Citelis 12M","Citelis 18M","Irisbus Crossway LE"],
+  "Solaris": ["Urbino 8.6","Urbino 10","Urbino 12","Urbino 15","Urbino 18","Urbino 24"],
+  "ISUZU": ["NovoCiti","Novo Ultra"],
+  "Renault/Irisbus": ["Irisbus Agora","Irisbus Citelis/Citybus","Irisbus Crossway","Irisbus Arway/ Récréo"],
+  "Škoda": ["33Tr SOR","Škoda-Solaris 24M"]
+};
+const brandSelect = document.getElementById("busBrand");
+const modelSelect = document.getElementById("busModel");
 
+function updateModels() {
+  const models = busModels[brandSelect.value];
+  modelSelect.innerHTML = "";
+  models.forEach(m => {
+    const o = document.createElement("option");
+    o.value = m; o.textContent = m;
+    modelSelect.appendChild(o);
+  });
+}
+brandSelect.addEventListener("change", updateModels);
+updateModels();
+
+document.getElementById("saveBus").addEventListener("click", () => {
+  const busBrand = brandSelect.value;
+  const busModel = modelSelect.value;
+  localStorage.setItem("synergyBus", JSON.stringify({busBrand,busModel}));
+  alert("Autobus uložen!");
+});
+</script>
+</body>
+</html>
