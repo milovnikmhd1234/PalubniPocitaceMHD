@@ -38,95 +38,165 @@ pre{background:#222;padding:8px;border-radius:4px;max-height:300px;overflow:auto
   <a href="#" id="closeNav">Zavřít menu</a>
   <a href="#" id="menuTimetable">Jízdní řády</a>
   <a href="#" id="menuCompany">Výběr dopravce</a>
+  <a href="#" id="menuBus">Výběr autobusu</a>
   <a href="#" id="menuAdmin">Admin</a>
   <a href="#" id="menuTickets">Jízdenky / KartaŘ</a>
   <a href="#" id="menuLoad">Načíst uložený JŘ</a>
+  <a href="#" id="menuPlayGong">Přehrát gong</a>
 </nav>
 
 <main id="mainContent">
 <section id="timetableSection">
 <h2>Vytvoř svůj jízdní řád</h2>
+
 <select id="busType">
   <option value="">-- Vyber autobus --</option>
-  <option value="Iveco">Iveco</option>
-  <option value="SOR">SOR</option>
-  <option value="Solaris">Solaris</option>
-  <option value="Karosa">Karosa</option>
-  <option value="Irisbus">Irisbus</option>
-  <option value="Setra">Setra</option>
-  <option value="Ikarus">Ikarus</option>
-  <option value="Skoda">Škoda</option>
+  <optgroup label="SOR">
+    <option value="SOR_BN_8_5">SOR BN 8.5</option>
+    <option value="SOR_BNG_12">SOR BNG 12</option>
+    <option value="SOR_NB_12">SOR NB 12</option>
+    <option value="SOR_NB_18">SOR NB 18</option>
+    <option value="SOR_NS_12">SOR NS 12</option>
+    <option value="SOR_NS_18">SOR NS 18</option>
+    <option value="SOR_EBN_8">SOR EBN 8</option>
+    <option value="SOR_EBN_9_5">SOR EBN 9.5</option>
+    <option value="SOR_EBN_10_5">SOR EBN 10.5</option>
+    <option value="SOR_C_9_5">SOR C 9.5</option>
+    <option value="SOR_C_12">SOR C 12</option>
+    <option value="SOR_CN_8_5">SOR CN 8.5</option>
+    <option value="SOR_CN_9_5">SOR CN 9.5</option>
+    <option value="SOR_CN_10_5">SOR CN 10.5</option>
+    <option value="SOR_CN_12">SOR CN 12</option>
+    <option value="SOR_LH_9_5">SOR LH 9.5</option>
+    <option value="SOR_LH_10_5">SOR LH 10.5</option>
+    <option value="SOR_LH_12">SOR LH 12</option>
+  </optgroup>
+
+  <optgroup label="IVECO / Irisbus / Karosa">
+    <option value="Karosa_B_731">Karosa B 731</option>
+    <option value="Karosa_B_732">Karosa B 732</option>
+    <option value="Karosa_B_741">Karosa B 741</option>
+    <option value="Karosa_B_831">Karosa B 831</option>
+    <option value="Karosa_B_932">Karosa B 932</option>
+    <option value="Karosa_C_734">Karosa C 734</option>
+    <option value="Karosa_C_935">Karosa C 935</option>
+    <option value="Karosa_C_954">Karosa C 954</option>
+    <option value="Karosa_LC_735">Karosa LC 735</option>
+    <option value="Karosa_LC_937">Karosa LC 937</option>
+    <option value="Karosa_LC_956">Karosa LC 956</option>
+    <option value="Iveco_Urbanway_10_5M">Iveco Urbanway 10.5M</option>
+    <option value="Iveco_Urbanway_12M">Iveco Urbanway 12M</option>
+    <option value="Iveco_Crossway">Iveco Crossway</option>
+    <option value="Irisbus_Citelis_12M">Irisbus Citelis 12M</option>
+    <option value="Irisbus_Citelis_18M">Irisbus Citelis 18M</option>
+    <option value="Irisbus_Crossway_LE">Irisbus Crossway LE</option>
+  </optgroup>
+
+  <optgroup label="Solaris">
+    <option value="Solaris_Urbino_8_6">Solaris Urbino 8,6</option>
+    <option value="Solaris_Urbino_10">Solaris Urbino 10</option>
+    <option value="Solaris_Urbino_12">Solaris Urbino 12</option>
+    <option value="Solaris_Urbino_15">Solaris Urbino 15</option>
+    <option value="Solaris_Urbino_18">Solaris Urbino 18</option>
+    <option value="Solaris_Urbino_24">Solaris Urbino 24</option>
+  </optgroup>
+
+  <optgroup label="ISUZU">
+    <option value="Isuzu_NovoCiti">Isuzu NovoCiti</option>
+    <option value="Isuzu_NovoUltra">Isuzu Novo Ultra</option>
+  </optgroup>
+
+  <optgroup label="RENAULT / Irisbus">
+    <option value="Irisbus_Agora">Irisbus Agora</option>
+    <option value="Irisbus_Citelis">Irisbus Citelis / Citybus</option>
+    <option value="Irisbus_Crossway">Irisbus Crossway</option>
+    <option value="Irisbus_Arway_Recreo">Irisbus Arway / Récréo</option>
+  </optgroup>
+
+  <optgroup label="ŠKODA">
+    <option value="Skoda_33Tr_SOR">Škoda 33Tr SOR (trolejbus)</option>
+    <option value="Skoda_Solaris_24M">Škoda‑Solaris 24M</option>
+  </optgroup>
 </select>
+
 <textarea id="timetableInput" rows="10" placeholder="Zadej zastávky a časy, např.:
 Hlavní nádraží 08:00
 Masarykova* 08:10
 Nádraží konečná 08:20"></textarea>
+
 <button id="generateBtn">Generovat jízdní řád</button>
 <button id="saveBtn">Uložit JŘ</button>
 <pre id="timetableOutput">Zde se zobrazí jízdní řád</pre>
+
 </section>
 </main>
 
+<!-- Gong audio -->
+<audio id="gongAudio" src="https://www.prazsketramvaje.cz/zvuky/praha-zastavky/ostatni/gong.mp3"></audio>
+
 <script>
-// ===== Sidebar =====
-const hamburger=document.getElementById('hamburger');
-const sidebar=document.getElementById('sidebar');
-const closeNav=document.getElementById('closeNav');
+// Sidebar toggle
+const hamburger=document.getElementById('hamburger'), sidebar=document.getElementById('sidebar'), closeNav=document.getElementById('closeNav');
 hamburger.addEventListener('click',()=>sidebar.classList.add('open'));
 closeNav.addEventListener('click',()=>sidebar.classList.remove('open'));
 
-// ===== Live čas =====
+// Live time
 function updateTime(){
-  const d=new Date();
-  const h=d.getHours().toString().padStart(2,'0');
-  const m=d.getMinutes().toString().padStart(2,'0');
-  const s=d.getSeconds().toString().padStart(2,'0');
+  const d=new Date(),h=d.getHours().toString().padStart(2,'0'),
+        m=d.getMinutes().toString().padStart(2,'0'),
+        s=d.getSeconds().toString().padStart(2,'0');
   document.getElementById('time').textContent=`${h}:${m}:${s}`;
 }
 setInterval(updateTime,1000);
 updateTime();
 
-// ===== Admin přihlášení =====
+// Admin
 document.getElementById('menuAdmin').onclick=()=>{
-  const pass=prompt('Zadej heslo admin:');
-  if(pass==='K3508O') alert('Admin přihlášen!');
+  const p=prompt('Zadej heslo admin:');
+  if(p==='K3508O') alert('Admin přihlášen');
   else alert('Špatné heslo');
 };
 
-// ===== Menu ostatní =====
-document.getElementById('menuCompany').onclick=()=>alert('Zvol dopravce / DP.');
-document.getElementById('menuTickets').onclick=()=>alert('Simulace prodeje jízdenek / KartaŘ');
+// Other menu
+document.getElementById('menuCompany').onclick=()=>alert('Vyber dopravce / DP.');
+document.getElementById('menuTickets').onclick=()=>alert('Simulace jízdenek / KartaŘ');
+document.getElementById('menuBus').onclick=()=>alert('Vyber typ autobusu.');
 document.getElementById('menuTimetable').onclick=()=>document.getElementById('generateBtn').click();
 document.getElementById('menuLoad').onclick=()=>{
   const saved=localStorage.getItem('synergyTimetable');
   if(saved){
     document.getElementById('timetableInput').value=saved;
     document.getElementById('generateBtn').click();
-  }else alert('Žádný uložený jízdní řád.');
+  } else alert('Žádný uložený JŘ.');
+};
+document.getElementById('menuPlayGong').onclick=()=>{
+  const g=document.getElementById('gongAudio'); g.currentTime=0; g.play();
 };
 
-// ===== Generování jízdního řádu =====
+// Generate timetable
 function generateTimetable(){
-  const input=document.getElementById('timetableInput').value.trim();
-  const lines=input.split('\n');
-  const bus=document.getElementById('busType').value || "neznámý";
-  let output="Autobus: "+bus+"\n\n";
+  const txt=document.getElementById('timetableInput').value.trim();
+  const lines=txt.split('\n');
+  const bus=document.getElementById('busType').value||"neznámý";
+  let out="Autobus: "+bus+"\n\n";
   lines.forEach(line=>{
     if(!line) return;
     let [stop,time]=line.split(/\s+(\d{2}:\d{2})$/);
-    let colorClass="";
-    if(stop.endsWith('*')) stop=stop.slice(0,-1), colorClass="stop";
-    let rand=Math.floor(Math.random()*5)-2; // -2..+2 min
+    let cls="";
+    if(stop.endsWith('*')) stop=stop.slice(0,-1), cls="stop";
+    let rand=Math.floor(Math.random()*5)-2;
     let sign="", displayTime=time;
-    if(rand<0){sign="-"; colorClass="stop";}
-    if(rand>0){sign="+"; colorClass=rand===1?"delay1":rand===2?"delay2":"delay3";}
-    output+=`${stop} ${displayTime} ${sign}\n`;
+    if(rand<0){sign="-"; cls="stop";}
+    if(rand>0){sign="+"; cls=rand===1?"delay1":rand===2?"delay2":"delay3";}
+    out+=`${stop} ${displayTime} ${sign}\n`;
   });
-  document.getElementById('timetableOutput').innerHTML=output.replace(/\n/g,'<br>');
+  document.getElementById('timetableOutput').innerHTML=out.replace(/\n/gi,'<br>');
+  document.getElementById('gongAudio').currentTime=0;
+  document.getElementById('gongAudio').play();
 }
 document.getElementById('generateBtn').onclick=generateTimetable;
 
-// ===== Uložení JŘ =====
+// Save timetable
 document.getElementById('saveBtn').onclick=()=>{
   localStorage.setItem('synergyTimetable',document.getElementById('timetableInput').value);
   alert('Jízdní řád uložen!');
