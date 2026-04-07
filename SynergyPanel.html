@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synergy Panel</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header><h1>Panel zastávek</h1></header>
+<main>
+<ul id="stopsList"></ul>
+<button id="prevStop">Předchozí</button>
+<button id="nextStop">Další</button>
+<button id="playGong">Gong</button>
+<audio id="gong" src="assets/gong.mp3"></audio>
+</main>
+<script>
+// příklad zastávek
+const stops = [
+  {name:"Náměstí", time:"08:00", delay:0},
+  {name:"Hlavní nádraží*", time:"08:10", delay:2},
+  {name:"Konečná", time:"08:20", delay:-1}
+];
+const list = document.getElementById("stopsList");
+let index = 0;
+
+function renderStops() {
+  list.innerHTML = "";
+  stops.forEach((s,i)=>{
+    const li = document.createElement("li");
+    li.textContent = `${s.name} - ${s.time} ${s.delay>0?'+':'-'}${Math.abs(s.delay)}min`;
+    if(s.delay>0){
+      if(s.delay<5) li.style.color="yellow";
+      else if(s.delay<10) li.style.color="orange";
+      else li.style.color="red";
+    } else if(s.delay<0) li.style.color="green";
+    list.appendChild(li);
+  });
+}
+renderStops();
+
+document.getElementById("nextStop").addEventListener("click", ()=>{
+  if(index<stops.length-1) index++;
+  alert("Další zastávka: "+stops[index].name);
+});
+document.getElementById("prevStop").addEventListener("click", ()=>{
+  if(index>0) index--;
+  alert("Předchozí zastávka: "+stops[index].name);
+});
+document.getElementById("playGong").addEventListener("click", ()=>{
+  const g=document.getElementById("gong");
+  g.currentTime=0;
+  g.play();
+  alert("Zastávka: "+stops[index].name);
+});
+</script>
+</body>
+</html>
