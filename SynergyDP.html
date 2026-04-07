@@ -1,1 +1,44 @@
 
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synergy DP</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header><h1>Výběr dopravce / linky / spoje</h1></header>
+<main>
+  <label>Dopravce:</label>
+  <select id="dp">
+    <option value="PID">PID</option>
+    <option value="DPP">DPP</option>
+    <option value="DPMB">DPMB</option>
+    <option value="DPO">DPO</option>
+    <option value="MDPO">MDPO</option>
+    <option value="PMDP">PMDP</option>
+    <option value="SAD_Lucenec">SAD Lučenec</option>
+    <option value="Z-Group">Z-Group Bus</option>
+    <option value="Arriva_Cechy">Arriva Čechy</option>
+    <option value="Arriva_Morava">Arriva Morava a Slezsko</option>
+    <option value="TRANZDEV">TRANZDEV Slezko a Morava</option>
+    <option value="Bratislava">Bratislava</option>
+  </select>
+  <label>Linka:</label>
+  <input type="text" id="linka" placeholder="Zadej linku">
+  <label>Spoj:</label>
+  <input type="text" id="spoj" placeholder="Zadej spoj">
+  <button id="saveDP">Uložit výběr</button>
+</main>
+<script>
+document.getElementById('saveDP').addEventListener('click', () => {
+  const dp = document.getElementById('dp').value;
+  const linka = document.getElementById('linka').value;
+  const spoj = document.getElementById('spoj').value;
+  localStorage.setItem('synergyDP', JSON.stringify({dp, linka, spoj}));
+  alert('Dopravce, linka a spoj uloženy!');
+});
+</script>
+</body>
+</html>
