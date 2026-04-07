@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synergy Mobile – Jízdní řády</title>
+<style>
+body{margin:0;font-family:sans-serif;background:#121212;color:#eee;}
+header{background:#05204a;color:#fff;padding:12px;display:flex;align-items:center;}
+h1{font-size:20px;margin:0;}
+#time{margin-left:auto;font-size:16px;}
+#hamburger{font-size:26px;cursor:pointer;margin-right:12px;}
+nav{position:fixed;left:-280px;top:0;width:280px;height:100vh;background:#08306b;color:#fff;transition:left 0.3s;overflow:auto;padding-top:50px;}
+nav.open{left:0;}
+nav a{display:block;padding:12px;color:#fff;text-decoration:none;border-bottom:1px solid #0a3a87;}
+nav a:hover{background:#0a3a87;}
+main{padding:16px;}
+section{background:#1e1e1e;padding:12px;margin-bottom:12px;border-radius:6px;}
+input,textarea,select,button{width:100%;margin:6px 0;padding:8px;font-size:15px;border:1px solid #444;border-radius:4px;background:#222;color:#eee;}
+button{background:#05204a;color:#fff;cursor:pointer;}
+button:hover{background:#0a3a87;}
+pre{background:#222;padding:8px;border-radius:4px;max-height:300px;overflow:auto;white-space:pre-wrap;}
+.stop{color:#0f0;}
+.delay1{color:#ff0;}
+.delay2{color:#ffa500;}
+.delay3{color:#f00;}
+</style>
+</head>
+<body>
+
+<header>
+  <div id="hamburger">☰</div>
+  <h1>Synergy – Jízdní řády</h1>
+  <div id="time"></div>
+</header>
+
+<nav id="sidebar">
+  <a href="#" id="closeNav">Zavřít menu</a>
+  <a href="#" id="menuTimetable">Jízdní řády</a>
+  <a href="#" id="menuCompany">Výběr dopravce</a>
+  <a href="#" id="menuAdmin">Admin</a>
+  <a href="#" id="menuTickets">Jízdenky / KartaŘ</a>
+  <a href="#" id="menuLoad">Načíst uložený JŘ</a>
+</nav>
+
+<main id="mainContent">
+<section id="timetableSection">
+<h2>Vytvoř svůj jízdní řád</h2>
+<select id="busType">
+  <option value="">-- Vyber autobus --</option>
+  <option value="Iveco">Iveco</option>
+  <option value="SOR">SOR</option>
+  <option value="Solaris">Solaris</option>
+  <option value="Karosa">Karosa</option>
+  <option value="Irisbus">Irisbus</option>
+  <option value="Setra">Setra</option>
+  <option value="Ikarus">Ikarus</option>
+  <option value="Skoda">Škoda</option>
+</select>
+<textarea id="timetableInput" rows="10" placeholder="Zadej zastávky a časy, např.:
+Hlavní nádraží 08:00
+Masarykova* 08:10
+Nádraží konečná 08:20"></textarea>
+<button id="generateBtn">Generovat jízdní řád</button>
+<button id="saveBtn">Uložit JŘ</button>
+<pre id="timetableOutput">Zde se zobrazí jízdní řád</pre>
+</section>
+</main>
+
+<script>
+// ===== Sidebar =====
+const hamburger=document.getElementById('hamburger');
+const sidebar=document.getElementById('sidebar');
+const closeNav=document.getElementById('closeNav');
+hamburger.addEventListener('click',()=>sidebar.classList.add('open'));
+closeNav.addEventListener('click',()=>sidebar.classList.remove('open'));
+
+// ===== Live čas =====
+function updateTime(){
+  const d=new Date();
+  const h=d.getHours().toString().padStart(2,'0');
+  const m=d.getMinutes().toString().padStart(2,'0');
+  const s=d.getSeconds().toString().padStart(2,'0');
+  document.getElementById('time').textContent=`${h}:${m}:${s}`;
+}
+setInterval(updateTime,1000);
+updateTime();
+
+// ===== Admin přihlášení =====
+document.getElementById('menuAdmin').onclick=()=>{
+  const pass=prompt('Zadej heslo admin:');
+  if(pass==='K3508O') alert('Admin přihlášen!');
+  else alert('Špatné heslo');
+};
+
+// ===== Menu ostatní =====
+document.getElementById('menuCompany').onclick=()=>alert('Zvol dopravce / DP.');
+document.getElementById('menuTickets').onclick=()=>alert('Simulace prodeje jízdenek / KartaŘ');
+document.getElementById('menuTimetable').onclick=()=>document.getElementById('generateBtn').click();
+document.getElementById('menuLoad').onclick=()=>{
+  const saved=localStorage.getItem('synergyTimetable');
+  if(saved){
+    document.getElementById('timetableInput').value=saved;
+    document.getElementById('generateBtn').click();
+  }else alert('Žádný uložený jízdní řád.');
+};
+
+// ===== Generování jízdního řádu =====
+function generateTimetable(){
+  const input=document.getElementById('timetableInput').value.trim();
+  const lines=input.split('\n');
+  const bus=document.getElementById('busType').value || "neznámý";
+  let output="Autobus: "+bus+"\n\n";
+  lines.forEach(line=>{
+    if(!line) return;
+    let [stop,time]=line.split(/\s+(\d{2}:\d{2})$/);
+    let colorClass="";
+    if(stop.endsWith('*')) stop=stop.slice(0,-1), colorClass="stop";
+    let rand=Math.floor(Math.random()*5)-2; // -2..+2 min
+    let sign="", displayTime=time;
+    if(rand<0){sign="-"; colorClass="stop";}
+    if(rand>0){sign="+"; colorClass=rand===1?"delay1":rand===2?"delay2":"delay3";}
+    output+=`${stop} ${displayTime} ${sign}\n`;
+  });
+  document.getElementById('timetableOutput').innerHTML=output.replace(/\n/g,'<br>');
+}
+document.getElementById('generateBtn').onclick=generateTimetable;
+
+// ===== Uložení JŘ =====
+document.getElementById('saveBtn').onclick=()=>{
+  localStorage.setItem('synergyTimetable',document.getElementById('timetableInput').value);
+  alert('Jízdní řád uložen!');
+};
+</script>
+
+</body>
+</html>
